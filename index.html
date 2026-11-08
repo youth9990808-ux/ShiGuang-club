@@ -136,13 +136,25 @@ tw-link:hover {
         margin: 1em auto;
     }
 }
-</style><script role="script" id="twine-user-script" type="text/twine-javascript"></script><tw-passagedata pid="1" name="Start" tags="" position="800,375" size="100,100">&lt;div style=&quot;text-align: center; margin: 15px 0; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 8px;&quot;&gt;
-  &lt;p style=&quot;margin-bottom: 8px; font-size: 14px;&quot;&gt;🎵 沉浸式背景音乐&lt;/p&gt;
-  &lt;audio id=&quot;bgm&quot; loop preload=&quot;auto&quot;&gt;
-    &lt;source src=&quot;video.mp3&quot; type=&quot;audio/mpeg&quot;&gt;
-  &lt;/audio&gt;
-  &lt;button onclick=&quot;var a=document.getElementById(&#39;bgm&#39;); if(a.paused){a.play();this.innerText=&#39;暂停音乐&#39;;}else{a.pause();this.innerText=&#39;播放音乐&#39;;}&quot; style=&quot;padding: 6px 14px; background: #4a90e2; color: #fff; border: none; border-radius: 4px; cursor: pointer;&quot;&gt;
-    ▶ 播放背景音乐
+</style><script role="script" id="twine-user-script" type="text/twine-javascript">// 检查页面是否已经存在全局音乐，避免重复创建
+if (!window.myBgm) {
+  window.myBgm = new Audio('video.mp3');
+  window.myBgm.loop = true;
+  window.myBgm.volume = 0.5; // 音量大小 (0.0 到 1.0)
+}
+
+// 提供一个全局播放函数供页面按钮调用
+window.toggleBgm = function() {
+  if (window.myBgm.paused) {
+    window.myBgm.play();
+    return "暂停音乐";
+  } else {
+    window.myBgm.pause();
+    return "播放背景音乐";
+  }
+};</script><tw-passagedata pid="1" name="Start" tags="" position="800,375" size="100,100">&lt;div style=&quot;position: fixed; top: 15px; right: 20px; z-index: 999;&quot;&gt;
+  &lt;button onclick=&quot;this.innerText=window.toggleBgm()&quot; style=&quot;padding: 4px 10px; background: rgba(0, 0, 0, 0.6); color: #fff; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 20px; font-size: 12px; cursor: pointer; backdrop-filter: blur(4px); transition: all 0.2s;&quot;&gt;
+    🎵 音乐
   &lt;/button&gt;
 &lt;/div&gt;
 # 拾光社的两年
