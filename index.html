@@ -136,28 +136,39 @@ tw-link:hover {
         margin: 1em auto;
     }
 }
-</style><script role="script" id="twine-user-script" type="text/twine-javascript">// 检查页面是否已经存在全局音乐，避免重复创建
+</style><script role="script" id="twine-user-script" type="text/twine-javascript">// 1. 初始化全局背景音乐
 if (!window.myBgm) {
   window.myBgm = new Audio('video.mp3');
   window.myBgm.loop = true;
-  window.myBgm.volume = 0.5; // 音量大小 (0.0 到 1.0)
+  window.myBgm.volume = 0.5;
 }
 
-// 提供一个全局播放函数供页面按钮调用
+// 2. 切换音乐状态函数
 window.toggleBgm = function() {
+  var btn = document.getElementById('global-music-btn');
   if (window.myBgm.paused) {
     window.myBgm.play();
-    return "暂停音乐";
+    if(btn) btn.innerText = "🔊 音乐:开";
   } else {
     window.myBgm.pause();
-    return "播放背景音乐";
+    if(btn) btn.innerText = "🔇 音乐:关";
   }
-};</script><tw-passagedata pid="1" name="Start" tags="" position="800,375" size="100,100">&lt;div style=&quot;position: fixed; top: 15px; right: 20px; z-index: 999;&quot;&gt;
-  &lt;button onclick=&quot;this.innerText=window.toggleBgm()&quot; style=&quot;padding: 4px 10px; background: rgba(0, 0, 0, 0.6); color: #fff; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 20px; font-size: 12px; cursor: pointer; backdrop-filter: blur(4px); transition: all 0.2s;&quot;&gt;
-    🎵 音乐
-  &lt;/button&gt;
-&lt;/div&gt;
-# 拾光社的两年
+};
+
+// 3. 每次页面跳转时，自动在右上角生成这个音乐按钮
+$(document.body).ready(function() {
+  // 避免重复添加
+  if (!document.getElementById('global-music-container')) {
+    var container = document.createElement('div');
+    container.id = 'global-music-container';
+    container.style.cssText = 'position: fixed; top: 15px; right: 20px; z-index: 9999;';
+    
+    var initialText = window.myBgm.paused ? "🔇 音乐:关" : "🔊 音乐:开";
+    container.innerHTML = '<button id="global-music-btn" onclick="window.toggleBgm()" style="padding: 5px 12px; background: rgba(0, 0, 0, 0.6); color: #fff; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 20px; font-size: 12px; cursor: pointer; backdrop-filter: blur(4px);"> ' + initialText + ' </button>';
+    
+    document.body.appendChild(container);
+  }
+});</script><tw-passagedata pid="1" name="Start" tags="" position="800,375" size="100,100"># 拾光社的两年
 
 一段关于摄影、协作与选择的校园故事。
 
